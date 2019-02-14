@@ -5,6 +5,8 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$ap = new ArrayPage();
+        $ap->prev();
+        $ap->prev();
 		print_r($ap->pageRows());
 		/*
 		$ap->pageIndex(5);
@@ -26,6 +28,7 @@ class Welcome extends CI_Controller {
         echo '<br/><br/>';
 
         $ap->next();
+        $ap->prev();
         print_r($ap->pageRows());
 	}
 }
