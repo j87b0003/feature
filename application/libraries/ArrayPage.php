@@ -23,6 +23,7 @@ class ArrayPage
 			else{
 				$this->indexPage = $value;
 			}
+			return $this->perPage;
 		}
 	}
     public function pageSize($value = null){
