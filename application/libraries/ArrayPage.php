@@ -1,21 +1,17 @@
 <?php
-require('../core/PageNavigation.php');
-
-/**
-* Interface PageNavigation
-*
-* @package \App\Contracts
-**/
-class PageNav implements PageNavigation
+class ArrayPage
 {
     const PAGE_SIZE_MAX = 50;
 	const PAGE_SIZE_MIN = 1;
-	$perPage = 20;
-	$indexPage = 0;
-	$total = 988;
+	private $perPage = 20;
+	private $indexPage = 0;
+	private $total = 988;
 	
-	int $maxPage = (int)($total / $perPage) +1;
+	private $maxPage;
 	
+	function __construct(){
+		$this->maxPage = (int)($this->total / $this->perPage) +1;
+	}
     public function recordCount(){
 		return $this->total;
 	}
@@ -27,13 +23,12 @@ class PageNav implements PageNavigation
 			else{
 				$this->indexPage = $value;
 			}
-			return $this->indexPage;
 		}
 	}
     public function pageSize($value = null){
 		if(!is_null($value)){
-			if($value < PAGE_SIZE_MIN) $this->perPage = PAGE_SIZE_MIN;
-			elseif($value > PAGE_SIZE_MAX)$this->perPage = PAGE_SIZE_MAX;
+			if($value < self::PAGE_SIZE_MIN) $this->perPage = self::PAGE_SIZE_MIN;
+			elseif($value > self::PAGE_SIZE_MAX)$this->perPage = self::PAGE_SIZE_MAX;
 			else{
 				$this->perPage = $value;
 			}
@@ -47,7 +42,7 @@ class PageNav implements PageNavigation
 		$this->indexPage = 0;
 	}
     public function prev(){
-		if($this->indexPage <= 1)$this->first;
+		if($this->indexPage <= 1)$this->first();
 		else $this->indexPage--;
     }
     public function next(){
@@ -55,9 +50,13 @@ class PageNav implements PageNavigation
 		else $this->indexPage++;
 	}
     public function last(){
-		$this->indexPage = $this->maxPage;
+		$this->indexPage = $this->maxPage-1;
 	}
     public function pageRows(){
-		
+		$data = array();
+		for($i = $this->indexPage*$this->perPage;$i < $this->indexPage * $this->perPage + $this->perPage; $i++){
+		    if($i < $this->total)array_push($data, $i);
+		}
+		return $data;
 	}
 }

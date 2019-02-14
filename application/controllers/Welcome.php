@@ -1,25 +1,31 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once('./application/libraries/ArrayPage.php');
 class Welcome extends CI_Controller {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$ap = new ArrayPage();
+		var_dump($ap->pageRows());
+		/*
+		$ap->pageIndex(5);
+		echo $ap->recordCount();
+		*/
+        $ap->last();
+        var_dump($ap->pageRows());
+        echo '<br/><br/>';
+        $ap->first();
+        var_dump($ap->pageRows());
+
+        echo '<br/><br/>';
+        $ap->pageSize(30);
+        $ap->first();
+        var_dump($ap->pageRows());
+        echo '<br/><br/>';
+        echo $ap->pageCount();
+
+        echo '<br/><br/>';
+
+        $ap->next();
+        var_dump($ap->pageRows());
 	}
 }
